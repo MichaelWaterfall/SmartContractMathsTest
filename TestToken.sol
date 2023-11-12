@@ -4,7 +4,7 @@ pragma solidity 0.7.0;
 
 contract TestToken {
 
-    address public minter;
+  address public minter;
   mapping(address => uint) public getBalance;
   uint public totalSupply;
 
