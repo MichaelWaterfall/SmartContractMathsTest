@@ -7,7 +7,7 @@ contract TestCO {
 
     uint256 constant public SALE_PERIOD = 3 days;
 
-    AIvestToken public token;
+    TestCOToken public token;
     uint256 public startTime;
     address public admin;
 
@@ -17,7 +17,7 @@ contract TestCO {
     }
 
     constructor() {
-        token = new AIvestToken();
+        token = new TestCOToken();
         admin = msg.sender;
         startTime = block.timestamp;
     }

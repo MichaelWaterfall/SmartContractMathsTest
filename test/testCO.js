@@ -3,15 +3,16 @@ const { ethers } = require("hardhat");
 
 describe('testCOToken', function () {
 
+    let token;
+    let ico;
     let deployer, investor1, investor2, investor3, attacker;
 
-    const FIRST_INVESTOR_INVESTED = ethers.utils.parseEther("520"); 
-    const SECOND_INVESTOR_INVESTED = ethers.utils.parseEther("126");
-    const THIRD_INVESTOR_INVESTED = ethers.utils.parseEther("54");
-    const SECOND_INVESTOR_REFUNDED = ethers.utils.parseEther("26");
+    const FIRST_INVESTOR_INVESTED = ethers.parseEther("520"); 
+    const SECOND_INVESTOR_INVESTED = ethers.parseEther("126");
+    const THIRD_INVESTOR_INVESTED = ethers.parseEther("54");
+    const SECOND_INVESTOR_REFUNDED = ethers.parseEther("26");
 
-    const TOTAL_INVESTED = FIRST_INVESTOR_INVESTED.add(SECOND_INVESTOR_INVESTED)
-    .add(THIRD_INVESTOR_INVESTED).sub(SECOND_INVESTOR_REFUNDED);
+    const TOTAL_INVESTED = FIRST_INVESTOR_INVESTED + SECOND_INVESTOR_INVESTED + THIRD_INVESTOR_INVESTED - SECOND_INVESTOR_REFUNDED;
 
     before(async function () {
 
@@ -23,7 +24,7 @@ describe('testCOToken', function () {
             "0xDE0B6B3A7640000", // 1 ETH
         ]);
         this.initialAttackerBalancer = await ethers.provider.getBalance(attacker.address);
-        expect(this.initialAttackerBalancer).to.be.equal(ethers.utils.parseEther("1"))
+        expect(this.initialAttackerBalancer).to.be.equal(ethers.parseEther("1"))
 
         // Deploy
         const TestCOFactory = await ethers.deployContract("TestCO");
