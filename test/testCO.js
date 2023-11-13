@@ -67,8 +67,8 @@ describe('testCOToken', function () {
         expect(await token.balanceOf(investor3.address))
         .to.be.equal(THIRD_INVESTOR_INVESTED * BigInt(10));
         
-        expect(await ethers.provider.getBalance(ico.address)).to.be.equal(
-            FIRST_INVESTOR_INVESTED + (SECOND_INVESTOR_INVESTED) + (THIRD_INVESTOR_INVESTED)
+        expect(await ethers.provider.getBalance(ico)).to.be.equal(
+            FIRST_INVESTOR_INVESTED + SECOND_INVESTOR_INVESTED + THIRD_INVESTOR_INVESTED
         )
         
     });
@@ -84,11 +84,10 @@ describe('testCOToken', function () {
         await ico.connect(investor2).refund(SECOND_INVESTOR_REFUNDED * BigInt(10));
 
         // Tokens and ETH balance check
-        expect(await ethers.provider.getBalance(ico.address)).to.be.equal(TOTAL_INVESTED)
-        expect(await token.balanceOf(investor2.address))
-        .to.be.equal(SECOND_INVESTOR_INVESTED - (SECOND_INVESTOR_REFUNDED) * BigInt(10));
+        expect(await ethers.provider.getBalance(ico)).to.be.equal(TOTAL_INVESTED)
+        expect(await token.balanceOf(investor2.address)).to.be.equal(SECOND_INVESTOR_INVESTED - SECOND_INVESTOR_REFUNDED * BigInt(10));
     });
-
+    
 
     it('Test exploit', async function () {
 
@@ -96,7 +95,7 @@ describe('testCOToken', function () {
 
     after(async function () {
         
-        expect(await ethers.provider.getBalance(ico.address)).to.be.equal(0);
+        expect(await ethers.provider.getBalance(ico)).to.be.equal(0);
         expect(await ethers.provider.getBalance(attacker.address)).to.be.gt(
             this.initialAttackerBalancer.add(TOTAL_INVESTED).sub(ethers.utils.parseEther("0.2"))
         );
