@@ -85,9 +85,10 @@ describe('testCOToken', function () {
 
         // Tokens and ETH balance check
         expect(await ethers.provider.getBalance(ico)).to.be.equal(TOTAL_INVESTED)
-        expect(await token.balanceOf(investor2.address)).to.be.equal(SECOND_INVESTOR_INVESTED - SECOND_INVESTOR_REFUNDED * BigInt(10));
+        const result = SECOND_INVESTOR_INVESTED - SECOND_INVESTOR_REFUNDED;
+        expect(await token.balanceOf(investor2.address)).to.be.equal(result * BigInt(10));
     });
-    
+
 
     it('Test exploit', async function () {
 
