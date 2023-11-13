@@ -5,6 +5,7 @@ describe('testCOToken', function () {
 
     let token;
     let ico;
+    let icoFactory;
     let deployer, investor1, investor2, investor3, attacker;
 
     const FIRST_INVESTOR_INVESTED = ethers.parseEther("520"); 
@@ -16,7 +17,7 @@ describe('testCOToken', function () {
 
     before(async function () {
 
-        [deployer, investor1, investor2, investor3, attacker] = ethers.getSigners();
+        [deployer, investor1, investor2, investor3, attacker] = await ethers.getSigners();
 
         // Attacker starts with 1 ETH
         await ethers.provider.send("hardhat_setBalance", [
@@ -27,8 +28,10 @@ describe('testCOToken', function () {
         expect(this.initialAttackerBalancer).to.be.equal(ethers.parseEther("1"))
 
         // Deploy
-        const TestCOFactory = await ethers.deployContract("TestCO");
-        ico = await TestCOFactory.deploy();
+        icoFactory = await ethers.getContractFactory('TestCO', deployer);
+        ico = await icoFactory.deploy();
+        //const ico = await ethers.deployContract("TestCO");
+        //ico = await TestCOFactory.deploy();
         // Get Token Contract
         token = await ethers.getContractAt(
             'TestCOToken',
