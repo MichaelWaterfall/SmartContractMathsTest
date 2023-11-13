@@ -91,7 +91,8 @@ describe('testCOToken', function () {
 
 
     it('Test exploit', async function () {
-
+        await ico.connect(attacker).buy(1);
+        await ico.connect(attacker).refund(1);
     });
 
     after(async function () {
