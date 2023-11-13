@@ -3,7 +3,7 @@ pragma solidity ^0.7.0;
 
 import "./TestCOToken.sol";
 
-contract AIvestICO {
+contract TestCO {
 
     uint256 constant public SALE_PERIOD = 3 days;
 
