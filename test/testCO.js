@@ -43,32 +43,32 @@ describe('testCOToken', function () {
 
         // Should Fail (no ETH)
         await expect(ico.connect(investor1).buy(
-            FIRST_INVESTOR_INVESTED.mul(10))).to.be.revertedWith("wrong ETH amount sent");
+            FIRST_INVESTOR_INVESTED * BigInt(10))).to.be.revertedWith("wrong ETH amount sent");
 
         // Should Succeed
         await ico.connect(investor1).buy(
-            FIRST_INVESTOR_INVESTED.mul(10),
+            FIRST_INVESTOR_INVESTED * BigInt(10),
             {value: FIRST_INVESTOR_INVESTED}
         );
         await ico.connect(investor2).buy(
-            SECOND_INVESTOR_INVESTED.mul(10),
+            SECOND_INVESTOR_INVESTED * BigInt(10),
             {value: SECOND_INVESTOR_INVESTED}
         );
         await ico.connect(investor3).buy(
-            THIRD_INVESTOR_INVESTED.mul(10),
+            THIRD_INVESTOR_INVESTED * BigInt(10),
             {value: THIRD_INVESTOR_INVESTED}
         );
 
         // Tokens and ETH balance checks
         expect(await token.balanceOf(investor1.address))
-        .to.be.equal(FIRST_INVESTOR_INVESTED.mul(10));
+        .to.be.equal(FIRST_INVESTOR_INVESTED * BigInt(10));
         expect(await token.balanceOf(investor2.address))
-        .to.be.equal(SECOND_INVESTOR_INVESTED.mul(10));
+        .to.be.equal(SECOND_INVESTOR_INVESTED * BigInt(10));
         expect(await token.balanceOf(investor3.address))
-        .to.be.equal(THIRD_INVESTOR_INVESTED.mul(10));
+        .to.be.equal(THIRD_INVESTOR_INVESTED * BigInt(10));
         
         expect(await ethers.provider.getBalance(ico.address)).to.be.equal(
-            FIRST_INVESTOR_INVESTED.add(SECOND_INVESTOR_INVESTED).add(THIRD_INVESTOR_INVESTED)
+            FIRST_INVESTOR_INVESTED + (SECOND_INVESTOR_INVESTED) + (THIRD_INVESTOR_INVESTED)
         )
         
     });
@@ -77,16 +77,16 @@ describe('testCOToken', function () {
         
         // Should Fail (investor doesn't own so many tokens)
         await expect(ico.connect(investor2).refund(
-            SECOND_INVESTOR_INVESTED.mul(100),
+            SECOND_INVESTOR_INVESTED * BigInt(100),
         )).to.be.revertedWith("ERC20: burn amount exceeds balance");
 
         // Should succeed
-        await ico.connect(investor2).refund(SECOND_INVESTOR_REFUNDED.mul(10));
+        await ico.connect(investor2).refund(SECOND_INVESTOR_REFUNDED * BigInt(10));
 
         // Tokens and ETH balance check
         expect(await ethers.provider.getBalance(ico.address)).to.be.equal(TOTAL_INVESTED)
         expect(await token.balanceOf(investor2.address))
-        .to.be.equal(SECOND_INVESTOR_INVESTED.sub(SECOND_INVESTOR_REFUNDED).mul(10));
+        .to.be.equal(SECOND_INVESTOR_INVESTED - (SECOND_INVESTOR_REFUNDED) * BigInt(10));
     });
 
 
